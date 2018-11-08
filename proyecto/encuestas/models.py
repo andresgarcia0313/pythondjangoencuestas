@@ -4,8 +4,8 @@ from django.db import models
 from django.utils import timezone
 
 # Create your models here.
+# Modelos, Shell De Modelos y API
 # https://docs.djangoproject.com/es/2.1/intro/tutorial02/
-
 
 class Pregunta(models.Model):
     texto_de_la_pregunta = models.CharField(max_length=200)
@@ -73,7 +73,38 @@ Jugando con la api
     Creamos el objeto a partir de su id
     p = Pregunta.objects.get(pk=1)
     p.fue_publicado_recientemente()
+    '''
+'''
 17. Asignar varias opciones de elección a unica pregunta
     Consultemos las preguntas asociadas 
-    q.eleccion_set.all()
+   
+    p.eleccion_set.all()
+    p.eleccion_set.create(texto_de_eleccion='No mucho', votos=0)
+    p.eleccion_set.create(texto_de_eleccion='El Cielo', votos=0)
+   
+    Los objetos de elección tienen acceso de API a sus objetos de pregunta relacionados.
+    
+    e = p.eleccion_set.create(texto_de_eleccion='Solo hackeando de nuevo', votos=0)
+    
+    Y viceversa: los objetos de pregunta tienen acceso a los objetos de elección.
+    
+    e.pregunta
+    p.eleccion_set.all()
+    p.eleccion_set.count()
+    
+    Se siguen las relaciones con guiones bajos para 
+    separarlas y con niveles n de profundidad
+    Encuentrar todas las opciones para preguntas con 
+    fecha de publicación esté en este año 
+    (reutilizando la variable 'current_year' quecreamos arriba).
+    
+    Eleccion.objects.filter(question__pub_date__year=current_year)
+    
+    Vamos a eliminar una de las opciones. Use delete () para eso.
+    e.delete()
+    
+    Más entrenamiento sobre modelos en 
+    https://docs.djangoproject.com/es/2.1/ref/models/relations/
+    Más Info de API de datos en:
+    https://docs.djangoproject.com/es/2.1/topics/db/queries/
 '''
